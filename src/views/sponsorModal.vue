@@ -1,3 +1,4 @@
+<!-- Modified by Tofu on 2026-10-23: disable unused external sponsor advertising. -->
 <template>
   <div class="modal  fade" id="sponsorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
@@ -45,12 +46,7 @@
         },
         methods: {
             loadSponsors: function () {
-                if (this.sponsorsList.length == 0) {
-                    const axios = require('axios').default;
-                    axios.get('https://support.weektodo.me/data/sponsors.json')
-                        .then(response => (this.renderSponsors(response)))
-                        .catch(error => console.log(error.message))
-                }
+                this.sponsorsList = [];
             },
             renderSponsors: function (response) {
                 var data = response.data;
