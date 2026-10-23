@@ -26,12 +26,7 @@ fs.copyFileSync(path.join(root, "LICENSE"), path.join(site, "LICENSE.txt"));
 for (const name of fs.readdirSync(site)) {
   if (/^google[0-9a-f]+\.html$/.test(name)) fs.rmSync(path.join(site, name));
 }
-// Serve the corresponding GPL source with the binaries, including the exact
-// source inputs and lockfile, rather than depending on another site's uptime.
-run("tar", [
-  "-czf", path.join(site, "source.tar.gz"),
-  "LICENSE", "README.md", "TOFU.md", "package.json", "yarn.lock",
-  "src", "public", "build", "vue.config.js", "babel.config.js",
-  ".browserslistrc", ".eslintrc.js", "tofu.vue.config.js", "tofu-build.cjs", "tofu-vue-service.cjs",
-], { ...process.env, COPYFILE_DISABLE: "1" });
-console.log("Static site ready in site/; LICENSE and corresponding source included.");
+// The corresponding GPL source is this repository at the pinned tag (the About
+// view links it); no archive is written into site/, because Tofu's Free static
+// hosting serves only file types it recognises and refuses a `.tar.gz`.
+console.log("Static site ready in site/; the license text is included as LICENSE.txt.");

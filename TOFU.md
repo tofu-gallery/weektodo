@@ -27,7 +27,7 @@ npm exec --yes --package=yarn@1.22.22 -- yarn install --frozen-lockfile --non-in
 node tofu-build.cjs
 ```
 
-`--ignore-scripts` skips Electron's desktop binary download and native packaging hooks, which the browser build does not need. `--ignore-engines` accommodates the older development dependency engine declarations on Node.js 22. The build wrapper enables Node's OpenSSL legacy provider for webpack 4, limits compilation/minification parallelism, and uses an additive Vue configuration to write `site/`. `tofu-vue-service.cjs` loads only the Babel and ESLint web plugins, since the upstream Electron plugin imports a desktop executable even during a browser build. These options are for building only; they are not runtime secrets or app environment requirements. The wrapper also packages the exact adapted source, build scripts, lockfile, and license into `site/source.tar.gz` and copies the GPL license into `site/LICENSE.txt` (a `.txt` name, so hosts serve it as text the browser displays).
+`--ignore-scripts` skips Electron's desktop binary download and native packaging hooks, which the browser build does not need. `--ignore-engines` accommodates the older development dependency engine declarations on Node.js 22. The build wrapper enables Node's OpenSSL legacy provider for webpack 4, limits compilation/minification parallelism, and uses an additive Vue configuration to write `site/`. `tofu-vue-service.cjs` loads only the Babel and ESLint web plugins, since the upstream Electron plugin imports a desktop executable even during a browser build. These options are for building only; they are not runtime secrets or app environment requirements. The wrapper also copies the GPL license into `site/LICENSE.txt` (a `.txt` name, so hosts serve it as text the browser displays). It writes no source archive into `site/`; the corresponding source is this repository at the pinned tag (see Upstream and license).
 
 A local serving check uses:
 
@@ -44,9 +44,10 @@ Changes by Tofu on 2026-10-23:
 - Remove the splash screen sponsor advertisement and its network request; disable the unused sponsor modal's network request. The WeekToDo logo splash remains.
 - Remove the nonfunctional error-reporting switches from onboarding and settings, and the onboarding sentence offering error reports, since reporting is not part of this copy.
 - Leave upstream's Google Search Console verification file (`public/googled50c8321df2bd61b.html`) out of the served `site/`. The file proves site ownership to the upstream owner's Google account, so serving it on a copy's address would let that account claim the copy in Search Console. It remains in the source tree.
-- Remove unresolved, unused sponsor/collaborator component references from the About view. Add same-origin license and corresponding-source download links there while keeping upstream credits and links.
+- Remove unresolved, unused sponsor/collaborator component references from the About view. Add a license link (`LICENSE.txt`, same origin) and a corresponding-source link (this repository at its pinned tag on GitHub) there while keeping upstream credits and links.
 - Add `tofu.vue.config.js`, `tofu-vue-service.cjs` and `tofu-build.cjs` to produce the static `site/` without rewriting upstream's build manifest or lockfile.
-- Commit the static output with its corresponding source archive so a copied app needs no dependency installation or third-party account to run.
+- Commit the static output so a copied app needs no dependency installation or third-party account to run.
+- Do not ship `site/source.tar.gz` (the first pin, `pin/2026-10-23`, did). Tofu's Free static hosting publishes a finished site only if every file is a type it serves, and it refuses the whole site for a `.tar.gz`. The About view's source link now opens this repository's pinned tag on GitHub instead of downloading from the app, and `tofu-build.cjs` no longer writes an archive. Nothing else in `site/` changed except the compiled About view (`js/app.*.js`, `css/app.*.css` and the file names `index.html` loads); the source change is in `src/views/aboutModal.vue`. The license text stays served as `site/LICENSE.txt`.
 
 Each modified source file carries a dated modification notice. The root `LICENSE` and upstream copyright notices are retained unchanged. Upstream telemetry and Electron packages remain in the untouched dependency manifest/lockfile for source reproducibility; the removed telemetry code is not imported into the application.
 
@@ -61,7 +62,7 @@ This is the upstream desktop-browser experience. On small/mobile viewports it sh
 - Base commit: `d384fc72d04e9c8a8431d456a3218c08d0c77e29`
 - Fork: https://github.com/tofu-gallery/weektodo
 - Adaptations: `tofu` branch
-- Pinned release tag: `pin/2026-10-23`
+- Pinned release tag: `pin/2026-10-23.1` (the earlier `pin/2026-10-23` is unchanged and still contains `site/source.tar.gz`)
 - License: GNU GPL version 3 (`LICENSE`). The adaptations and distributed application remain under GPL-3.0.
 
-When redistributing this build or a changed build, preserve the license and copyright notices and keep its complete corresponding source available. This copy serves the source archive next to the compiled application. Rebuild with `node tofu-build.cjs` after source changes so the archive and the served JavaScript stay in agreement.
+When redistributing this build or a changed build, preserve the license and copyright notices and keep its complete corresponding source available. This copy's corresponding source is this repository at the pinned tag: the About view's "GPL-3.0 source (Tofu adaptation)" link opens `https://github.com/tofu-gallery/weektodo/tree/pin/2026-10-23.1`, which holds the adapted source, build scripts, and lockfile. If you publish a copy elsewhere, point that link at where your copy's source lives. Rebuild with `node tofu-build.cjs` after source changes so the served JavaScript and the source stay in agreement.

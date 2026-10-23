@@ -1,4 +1,4 @@
-<!-- Modified by Tofu on 2026-10-23: link the adapted GPL source and omit unused sponsor components. -->
+<!-- Modified by Tofu on 2026-10-23: link the adapted GPL source (the pinned tag on GitHub) and omit unused sponsor components. -->
 <template>
   <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -38,7 +38,7 @@
               <div class="visit-site mt-2 mb-3" style="font-size: 0.75rem">
                 <a href="https://weektodo.me" target="_blank">{{ $t("about.site") }}</a>
                 <span> · </span>
-                <a href="source.tar.gz" download>GPL-3.0 source (Tofu adaptation)</a>
+                <a href="https://github.com/tofu-gallery/weektodo/tree/pin/2026-10-23.1" target="_blank">GPL-3.0 source (Tofu adaptation)</a>
                 <span> · </span>
                 <a href="LICENSE.txt" target="_blank">GPL-3.0</a>
               </div>
