@@ -19,7 +19,8 @@ run(process.execPath, [
 });
 
 const site = path.join(root, "site");
-fs.copyFileSync(path.join(root, "LICENSE"), path.join(site, "LICENSE"));
+// A .txt name makes static hosts serve the license as text the browser shows.
+fs.copyFileSync(path.join(root, "LICENSE"), path.join(site, "LICENSE.txt"));
 // Upstream's Google Search Console token proves site ownership to upstream's
 // Google account; a copy served on someone else's address must not carry it.
 for (const name of fs.readdirSync(site)) {

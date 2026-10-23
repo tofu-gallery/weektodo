@@ -40,7 +40,7 @@
                 <span> · </span>
                 <a href="source.tar.gz" download>GPL-3.0 source (Tofu adaptation)</a>
                 <span> · </span>
-                <a href="LICENSE" target="_blank">GPL-3.0</a>
+                <a href="LICENSE.txt" target="_blank">GPL-3.0</a>
               </div>
             </span>
             <div class="d-flex align-self-center">
