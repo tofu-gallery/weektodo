@@ -55,6 +55,14 @@ Each modified source file carries a dated modification notice. The root `LICENSE
 
 This is the upstream desktop-browser experience. On small/mobile viewports it shows the upstream unsupported-device notice; do not advertise it as a mobile planner. Data belongs to this browser profile and origin. Clearing site data, using a different browser/device, or moving to a different hostname does not carry tasks across; use WeekToDo's built-in export/import for backups and transfers. Browser notifications depend on browser support and permission. No server process runs reminders after the app is closed.
 
+## Verification
+
+Checked on 2026-10-23 for `pin/2026-10-23.1` (macOS, Node.js 22.22.3, Yarn 1.22.22):
+
+- The frozen-lockfile install completed and `node tofu-build.cjs` exited 0. Compared with the first pin's `site/`, only `index.html`, `js/app.*.js` and `css/app.*.css` differ (new hashes). The vendor chunk, fonts, images, sounds and `LICENSE.txt` are byte-identical, and the compiled change is the About view's source link plus Vue's scoped-style id for that view.
+- Tofu's GitHub-import checks, run on the pushed `tofu` branch with `site` as the root: the import keeps all 54 files and drops none, and the site is recognised as a finished static site (the earlier refusal of `source.tar.gz` is gone). Tofu's safety check still reports two blocking `obfuscated-code` findings on `js/chunk-vendors.94801812.js`. They come from the usual `Function("return this")()` global lookup in webpack's runtime and core-js inside that minified vendor chunk, which is a known false positive in the rule; the third-party code is unmodified.
+- Browser check: `site/` was copied as the import would (without `node_modules`, `dist`, `build`, `target`, `.cache`), served with `python3 -m http.server` on 127.0.0.1 and opened in a browser. The planner rendered after the splash screen. Typing a task into the first day and pressing Enter added it, and it was still there after a reload. The About view lists "GPL-3.0 source (Tofu adaptation)", which opens `https://github.com/tofu-gallery/weektodo/tree/pin/2026-10-23.1`, and "GPL-3.0", which opens `LICENSE.txt`; nothing in the page refers to `source.tar.gz`. The console showed no errors and every request the app made returned 200 or 304. The scripted fill-then-Enter step added the task twice in this build and in the first pin's build alike, so that behaviour is not from this change.
+
 ## Upstream and license
 
 - Upstream: https://github.com/manuelernestog/weektodo
