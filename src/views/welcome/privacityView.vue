@@ -1,3 +1,4 @@
+<!-- Modified by Tofu on 2026-10-23: remove the unavailable error-reporting control and its description. -->
 <template>
   <div class="row">
     <div class="col-md-4">
@@ -9,12 +10,6 @@
       <div>
         <h4> {{ $t('welcome.privacy') }}</h4>
         <div class="mb-1">{{ $t('welcome.privacyText') }}</div>
-        <span class="sub-header">{{ $t('welcome.privacySub') }} </span>
-      </div>
-      <div class="form-check form-switch d-flex px-1 mt-3 mb-0 align-items-center justify-content-center">
-        <label class="form-check-label" for="sendReportErrors">{{ $t("settings.reportErrors")
-        }}</label>
-        <input class="form-check-input mx-3" type="checkbox" id="sendReportErrors" v-model="reportErrors" @change="changeSendErrors()" />
       </div>
     </div>
   </div>

@@ -1,3 +1,4 @@
+<!-- Modified by Tofu on 2026-10-23: remove the unavailable error-reporting control. -->
 <template>
   <div class="modal fade" id="configModal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -100,12 +101,6 @@
                     v-model="configData.runInBackground" @change="setRunInBackground()" />
                 </div>
 
-                <div class="form-check form-switch d-flex px-1 mb-3 justify-content-between">
-                  <label class="form-check-label flex-fill" for="reportErrors">{{ $t("settings.reportErrors")
-                  }}</label>
-                  <input class="form-check-input" type="checkbox" id="reportErrors" v-model="configData.reportErrors"
-                    @change="setSendErrors()" />
-                </div>
               </div>
             </div>
             <div class="tab-pane fade" id="config-behavior">
