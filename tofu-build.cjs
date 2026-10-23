@@ -1,0 +1,36 @@
+// Added by Tofu on 2026-10-23 under GPL-3.0: reproducible static-site packaging.
+const fs = require("node:fs");
+const path = require("node:path");
+const { spawnSync } = require("node:child_process");
+
+const root = __dirname;
+const run = (command, args, env = process.env) => {
+  const result = spawnSync(command, args, { cwd: root, env, stdio: "inherit" });
+  if (result.error) throw result.error;
+  if (result.status !== 0) process.exit(result.status || 1);
+};
+
+run(process.execPath, [
+  "--openssl-legacy-provider",
+  path.join(root, "tofu-vue-service.cjs"),
+], {
+  ...process.env,
+  VUE_CLI_SERVICE_CONFIG_PATH: path.join(root, "tofu.vue.config.js"),
+});
+
+const site = path.join(root, "site");
+fs.copyFileSync(path.join(root, "LICENSE"), path.join(site, "LICENSE"));
+// Upstream's Google Search Console token proves site ownership to upstream's
+// Google account; a copy served on someone else's address must not carry it.
+for (const name of fs.readdirSync(site)) {
+  if (/^google[0-9a-f]+\.html$/.test(name)) fs.rmSync(path.join(site, name));
+}
+// Serve the corresponding GPL source with the binaries, including the exact
+// source inputs and lockfile, rather than depending on another site's uptime.
+run("tar", [
+  "-czf", path.join(site, "source.tar.gz"),
+  "LICENSE", "README.md", "TOFU.md", "package.json", "yarn.lock",
+  "src", "public", "build", "vue.config.js", "babel.config.js",
+  ".browserslistrc", ".eslintrc.js", "tofu.vue.config.js", "tofu-build.cjs", "tofu-vue-service.cjs",
+], { ...process.env, COPYFILE_DISABLE: "1" });
+console.log("Static site ready in site/; LICENSE and corresponding source included.");
